@@ -1,8 +1,4 @@
-(executable
- (name server)
+(library
+ (name lib)
  (libraries cohttp.lwt graphql-lwt yojson caqti caqti-lwt caqti-driver-postgresql)
  (preprocess (pps lwt_ppx)))
-
-(alias
- (name DEFAULT)
- (deps server.exe))

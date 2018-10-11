@@ -2,7 +2,7 @@ module C = Cohttp_lwt_unix
 
 open Graphql_lwt
 
-let connection_url = ""
+let connection_url = "postgresql://Sebastian@localhost/save_up_dev"
 
 let pool =
   match Caqti_lwt.connect_pool ~max_size:10 (Uri.of_string connection_url) with
@@ -122,7 +122,3 @@ let schema = Schema.(schema [
     ;
   ]
 )
-
-let () =
-  Server.start ~ctx:(fun _req -> ()) schema
-    |> Lwt_main.run

@@ -1,6 +1,6 @@
 build:
-	dune build ./src/server.exe
+	dune build ./bin/main.exe
 
 # http://localhost:8080/graphql
 start:
-	dune exec ./src/server.exe
+	dune exec ./src/main.exe
