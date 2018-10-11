@@ -4,6 +4,15 @@ open Graphql_lwt
 
 let connection_url = "postgresql://Sebastian@localhost/save_up_dev"
 
+type role 
+  = User 
+  | Admin
+
+type user = {
+  id   : int;
+  name : string;
+}
+
 let pool =
   match Caqti_lwt.connect_pool ~max_size:10 (Uri.of_string connection_url) with
   | Ok pool -> pool
@@ -17,12 +26,8 @@ type error =
 let or_error m =
   match%lwt m with
   | Ok a -> Ok a |> Lwt.return
-  | Error e -> Error (Database_error (Caqti_error.show e)) |> Lwt.return
-
-type user2 = {
-  id   : int;
-  name : string;
-}
+  | Error e -> Error (Caqti_error.show e) |> Lwt.return
+  (* | Error e -> Error (Database_error (Caqti_error.show e)) |> Lwt.return *)
 
 let get_all_query =
   Caqti_request.collect
@@ -38,48 +43,15 @@ let get_all () =
   in
   Caqti_lwt.Pool.use get_all' pool |> or_error
 
-type role 
-  = User 
-  | Admin
-
-type user = {
-  id   : int;
-  name : string;
-  role : role;
-  friends : user list;
-}
-
-let rec 
-  alice = 
-    {
-      id = 1; 
-      name = "Alice"; 
-      role = Admin; 
-      friends = [bob];
-    }
-  and 
-  bob = 
-    { 
-      id = 2; 
-      name = "Bob"; 
-      role = User; 
-      friends = [alice];
-    }
-
-let users = [
-    alice;
-    bob;
-  ]
-
-let role = Schema.(enum "role"
+(* let role = Schema.(enum "role"
   ~values: [
     enum_value "USER" ~value:User ~doc:"A regular user";
     enum_value "ADMIN" ~value:Admin ~doc:"An admin user";
   ]
-)
+) *)
 
 let user = Schema.(obj "user"
-  ~fields:(fun user -> [
+  ~fields:(fun _user -> [
     field "id"
       ~args:Arg.[]
       ~typ:(non_null int)
@@ -90,15 +62,6 @@ let user = Schema.(obj "user"
       ~typ:(non_null string)
       ~resolve:(fun () p -> p.name)
     ;
-    field "role"
-      ~args:Arg.[]
-      ~typ:(non_null role)
-      ~resolve:(fun () p -> p.role)
-    ;
-    field "friends"
-      ~args:Arg.[]
-      ~typ:(list (non_null user))
-      ~resolve:(fun () p -> Some p.friends)
   ])
 )
 
@@ -106,7 +69,7 @@ let schema = Schema.(schema [
     io_field "users"
       ~args: Arg.[]
       ~typ: (non_null (list (non_null user)))
-      ~resolve: (fun () () -> Lwt_result.return users)
+      ~resolve: (fun () () -> get_all ())
     ;
     field "greeter"
       ~typ:string
