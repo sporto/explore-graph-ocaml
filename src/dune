@@ -1,6 +1,7 @@
 (executable
  (name server)
- (libraries cohttp.lwt graphql-lwt yojson))
+ (libraries cohttp.lwt graphql-lwt yojson caqti caqti-lwt caqti-driver-postgresql)
+ (preprocess (pps lwt_ppx)))
 
 (alias
  (name DEFAULT)
