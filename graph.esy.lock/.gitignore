@@ -1,0 +1,5 @@
+
+# Reset any possible .gitignore, we want all esy.lock to be un-ignored.
+!*
+opam
+overrides

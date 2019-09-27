@@ -1,8 +1,5 @@
 (executable
- (name main)
+ (name Api)
+ (public_name Api)
  (libraries lib)
  (preprocess (pps lwt_ppx)))
-
-(alias
- (name DEFAULT)
- (deps main.exe))

@@ -1,4 +1,4 @@
 (library
  (name lib)
- (libraries cohttp.lwt graphql-lwt yojson caqti caqti-lwt caqti-driver-postgresql)
+ (libraries cohttp-lwt graphql-lwt graphql-cohttp yojson caqti caqti-lwt caqti-driver-postgresql)
  (preprocess (pps lwt_ppx)))

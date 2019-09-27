@@ -1,2 +1,5 @@
 _build
 .merlin
+node_modules
+_esy
+api.install

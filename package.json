@@ -1,0 +1,41 @@
+{
+  "name": "explore-graph-ocaml",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "@opam/dune": "*",
+    "@opam/cohttp-lwt": "*",
+    "@opam/graphql-lwt": "*",
+    "@opam/graphql-cohttp": "*",
+    "@opam/lwt": "*",
+    "@opam/lwt_ppx": "*",
+    "@opam/caqti": "*",
+    "@opam/caqti-lwt": "*",
+    "@opam/caqti-driver-postgresql": "*",
+    "ocaml": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sporto/explore-graph-ocaml.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sporto/explore-graph-ocaml/issues"
+  },
+  "homepage": "https://github.com/sporto/explore-graph-ocaml#readme",
+  "esy": {
+    "build": "dune build -p api",
+    "release": {
+      "bin": ["Api"]
+    }
+  }
+}

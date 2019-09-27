@@ -1,6 +1,11 @@
+# Install deps
+install:
+	esy install
+
 build:
-	dune build ./bin/main.exe
+	esy build
 
 # http://localhost:8080/graphql
-start:
-	dune exec ./bin/main.exe
+run:
+	esy x Api.exe
+	# dune exec main.exe
