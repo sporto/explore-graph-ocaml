@@ -1,5 +1,5 @@
 (executable
  (name Api)
  (public_name Api)
- (libraries lib)
+ (libraries cohttp-lwt-unix lib)
  (preprocess (pps lwt_ppx)))

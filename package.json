@@ -9,6 +9,7 @@
   "dependencies": {
     "@opam/dune": "*",
     "@opam/cohttp-lwt": "*",
+    "@opam/cohttp-lwt-unix": "*",
     "@opam/graphql-lwt": "*",
     "@opam/graphql-cohttp": "*",
     "@opam/lwt": "*",

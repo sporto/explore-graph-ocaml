@@ -25,8 +25,10 @@ type error =
    val or_error : ('a, [> Caqti_error.t ]) result Lwt.t -> ('a, error) result Lwt.t *)
 let or_error m =
 	match%lwt m with
-	| Ok a -> Ok a |> Lwt.return
-	| Error e -> Error (Caqti_error.show e) |> Lwt.return
+	| Ok a -> 
+		Ok a |> Lwt.return
+	| Error e -> 
+		Error (Caqti_error.show e) |> Lwt.return
 	(* | Error e -> Error (Database_error (Caqti_error.show e)) |> Lwt.return *)
 
 let get_all_query =
@@ -50,17 +52,17 @@ let get_all () =
   ]
 ) *)
 
-let user = Schema.(obj "user"
+let user_schema = Schema.(obj "user"
 	~fields: (fun _user -> [
 		field "id"
-			~args: Arg.[]
 			~typ: (non_null int)
-			~resolve: (fun () p -> p.id)
+			~args: Arg.[]
+			~resolve: (fun (info: user Graphql_lwt.Schema.resolve_info) (p:user) -> p.id)
 		;
 		field "name"
-			~args: Arg.[]
 			~typ: (non_null string)
-			~resolve: (fun () p -> p.name)
+			~args: Arg.[]
+			~resolve: (fun (info: user Graphql_lwt.Schema.resolve_info) (p:user) -> p.name)
 		;
 	])
 )
@@ -68,8 +70,8 @@ let user = Schema.(obj "user"
 let schema = Schema.(schema [
 	io_field "users"
 		~args: Arg.[]
-		~typ: (non_null (list (non_null user)))
-		~resolve: (fun () () -> get_all ())
+		~typ: (non_null (list (non_null user_schema)))
+		~resolve: (fun info () -> get_all ())
 	;
 	field "greeter"
 		~typ:string
@@ -79,7 +81,7 @@ let schema = Schema.(schema [
 				arg "name" ~typ:(non_null string)
 			]))
 		]
-		~resolve: (fun () () (greeting, name) ->
+		~resolve: (fun info () (greeting, name) ->
 			Some (Format.sprintf "%s, %s" greeting name)
 		)
 		;
