@@ -7,5 +7,5 @@ build:
 
 # http://localhost:8080/graphql
 run:
-	esy x Api.exe
+	esy x Api
 	# dune exec main.exe
