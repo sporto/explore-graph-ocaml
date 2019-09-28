@@ -13,6 +13,8 @@ type user = {
 	name : string;
 }
 
+type context = unit
+
 let pool =
 	match Caqti_lwt.connect_pool ~max_size:10 (Uri.of_string connection_url) with
 	| Ok pool -> pool
@@ -57,12 +59,12 @@ let user_schema = Schema.(obj "user"
 		field "id"
 			~typ: (non_null int)
 			~args: Arg.[]
-			~resolve: (fun (info: user Graphql_lwt.Schema.resolve_info) (p:user) -> p.id)
+			~resolve: (fun (info: context Graphql_lwt.Schema.resolve_info) (p:user) -> p.id)
 		;
 		field "name"
 			~typ: (non_null string)
 			~args: Arg.[]
-			~resolve: (fun (info: user Graphql_lwt.Schema.resolve_info) (p:user) -> p.name)
+			~resolve: (fun (info: context Graphql_lwt.Schema.resolve_info) (p:user) -> p.name)
 		;
 	])
 )
